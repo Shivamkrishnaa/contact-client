@@ -6,6 +6,7 @@ import appManager from './app';
 import './errors';
 import path from 'path';
 import kue from './kue';
+const cmd = require("node-cmd");
 
 global.appRoot = path.resolve(__dirname);
 
@@ -21,7 +22,21 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use('/api', restRouter);
-
+app.post('/git', (req, res) => {
+	// If event is "push"
+	if (req.headers['x-github-event'] == "push") {
+		cmd.run('chmod 777 git.sh'); /* :/ Fix no perms after updating */
+		cmd.get('./git.sh', (err, data) => {  // Run our script
+		  if (data) console.log(data);
+		  if (err) console.log(err);
+		});
+		cmd.run('refresh');  // Refresh project
+	  
+		console.log("> [GIT] Updated with origin/master");
+	  }
+  
+	return res.sendStatus(200); // Send back OK status
+});
 app.use((req, res, next) => {
   console.log(req.url)
 	next(new RequestError('Invalid route', 404));
