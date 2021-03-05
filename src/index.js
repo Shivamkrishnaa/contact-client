@@ -26,7 +26,6 @@ app.post('/git', (req, res) => {
 	// If event is "push"
 	if (req.headers['x-github-event'] == "push") {
 		cmd.run('git pull');  // Refresh project
-		cmd.run('refresh');  // Refresh project
 		console.log("> [GIT] Updated with origin/master");
 	  }
   
