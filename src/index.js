@@ -16,7 +16,7 @@ const app = appManager.setup(config);
 
 const corsOptions = {
   //To allow requests from client
-    origin: "http://localhost:3000",
+    origin: process.env.api||"http://localhost:3000",
     credentials: true
 };
 
