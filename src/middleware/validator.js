@@ -38,5 +38,11 @@ export const schemas = {
   createRatingMovie: Joi.object().keys({
     rating: Joi.number().required().min(0).max(10).error(() => 'Movie comment has to be between 0 to 10 characters.'),
     email: Joi.string().email().required()
+  }),
+  createProject: Joi.object().keys({
+    projectName: Joi.string().required().min(3, 'utf8').max(100, 'utf8').error(() => 'Project name has to be between 3 to 100 characters.'),
+    experienceRequired: Joi.number().required().min(1).less(10).error(() => 'Experience has to be between 1 to 10 Yr.'),
+    location: Joi.string().required().valid('MUMBAI', 'DELHI', 'CHENNAI'),
+    skillsRequired: Joi.string().required().min(1, 'utf8').max(100, 'utf8').error(() => 'Skills has to be between 1 to 100 characters.'),
   })
 };
